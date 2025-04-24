@@ -1,0 +1,118 @@
+const TAMANHO = 10;
+const NAVIOS_TAMANHOS = [4, 3, 2];
+const playerBoard = document.getElementById("player-board");
+const computerBoard = document.getElementById("computer-board");
+
+let tabuleiroJogador = [];
+let tabuleiroComputador = [];
+
+let naviosJogador = NAVIOS_TAMANHOS.reduce((a, b) => a + b);
+let naviosComputador = NAVIOS_TAMANHOS.reduce((a, b) => a + b);
+
+function criarMatriz(tabuleiro) {
+  for (let i = 0; i < TAMANHO; i++) {
+    tabuleiro[i] = [];
+    for (let j = 0; j < TAMANHO; j++) {
+      tabuleiro[i][j] = { temNavio: false, clicado: false, elemento: null };
+    }
+  }
+}
+
+function posicionarNavios(tabuleiro) {
+  for (let tamanho of NAVIOS_TAMANHOS) {
+    let colocado = false;
+
+    while (!colocado) {
+      let orientacao = Math.random() < 0.5 ? "horizontal" : "vertical";
+      let x = Math.floor(Math.random() * TAMANHO);
+      let y = Math.floor(Math.random() * TAMANHO);
+
+      let podeColocar = true;
+      for (let i = 0; i < tamanho; i++) {
+        let xi = x + (orientacao === "vertical" ? i : 0);
+        let yi = y + (orientacao === "horizontal" ? i : 0);
+
+        if (
+          xi >= TAMANHO || yi >= TAMANHO ||
+          tabuleiro[xi][yi].temNavio
+        ) {
+          podeColocar = false;
+          break;
+        }
+      }
+
+      if (podeColocar) {
+        for (let i = 0; i < tamanho; i++) {
+          let xi = x + (orientacao === "vertical" ? i : 0);
+          let yi = y + (orientacao === "horizontal" ? i : 0);
+          tabuleiro[xi][yi].temNavio = true;
+        }
+        colocado = true;
+      }
+    }
+  }
+}
+
+function criarTabuleiroVisual(container, tabuleiro, isComputador = false) {
+  for (let i = 0; i < TAMANHO; i++) {
+    for (let j = 0; j < TAMANHO; j++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      container.appendChild(cell);
+
+      tabuleiro[i][j].elemento = cell;
+
+      if (isComputador) {
+        cell.addEventListener("click", () => {
+          if (tabuleiro[i][j].clicado || naviosComputador === 0 || naviosJogador === 0) return;
+
+          tabuleiro[i][j].clicado = true;
+
+          if (tabuleiro[i][j].temNavio) {
+            cell.classList.add("hit");
+            naviosComputador--;
+            if (naviosComputador === 0) {
+              alert("Parabéns! Você venceu!");
+              return;
+            }
+          } else {
+            cell.classList.add("miss");
+          }
+
+          setTimeout(jogadaComputador, 700);
+        });
+      }
+    }
+  }
+}
+
+function jogadaComputador() {
+  if (naviosJogador === 0) return;
+
+  let x, y;
+  do {
+    x = Math.floor(Math.random() * TAMANHO);
+    y = Math.floor(Math.random() * TAMANHO);
+  } while (tabuleiroJogador[x][y].clicado);
+
+  tabuleiroJogador[x][y].clicado = true;
+
+  const cell = tabuleiroJogador[x][y].elemento;
+
+  if (tabuleiroJogador[x][y].temNavio) {
+    cell.classList.add("hit");
+    naviosJogador--;
+    if (naviosJogador === 0) {
+      alert("O computador venceu!");
+    }
+  } else {
+    cell.classList.add("miss");
+  }
+}
+
+criarMatriz(tabuleiroJogador);
+criarMatriz(tabuleiroComputador);
+posicionarNavios(tabuleiroJogador);
+posicionarNavios(tabuleiroComputador);
+criarTabuleiroVisual(playerBoard, tabuleiroJogador);
+criarTabuleiroVisual(computerBoard, tabuleiroComputador, true);
