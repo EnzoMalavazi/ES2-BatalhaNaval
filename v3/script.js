@@ -3,6 +3,7 @@ const NUM_NAVIOS = 5;
 const playerBoard = document.getElementById("player-board");
 const computerBoard = document.getElementById("computer-board");
 
+
 let tabuleiroComputador = [];
 let naviosRestantes = NUM_NAVIOS;
 
