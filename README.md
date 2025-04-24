@@ -58,8 +58,22 @@ O jogo simula a batalha entre um jogador e o computador com jogadas alternadas, 
 ├── style.css  
 ├── script.js  
 ├── README.md  
-├── /documentação (opcional – pode conter os PDFs gerados)  
-└── /versões-anteriores (opcional – backups de versões 1 a 4)
+└── /v2
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+└── /v3
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+└── /v4
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+└── /v5
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
 ```
 
 ## 🌱 Fluxo de Trabalho (Git)
