@@ -1,0 +1,17 @@
+{
+  "name": "batalha_naval_v7",
+  "version": "1.0.0",
+  "main": "script.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
